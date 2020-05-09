@@ -6,7 +6,9 @@ from datetime import timedelta, datetime
 from slack import WebClient
 from config import Config
 
-slack_client = WebClient(Config.SLACK_BOT_TOKEN)
+time_travel_slack_client = WebClient(Config.SLACK_BOT_TOKEN)
+
+# is_ok = time_travel_slack_client.api_call("users.list").get('ok')
 
 def with_logging(func):
     @functools.wraps(func)
@@ -18,8 +20,11 @@ def with_logging(func):
     return wrapper
 
 @with_logging
-def send_message(slack_client, msg, future_time):
-    updateMsg = slack_client.chat_scheduleMessage(
+def send_message(msg, future_time):
+    is_ok = time_travel_slack_client.api_call("users.list").get('ok')
+    logger.debug("IS_OK",is_ok)
+    
+    updateMsg = time_travel_slack_client.chat_scheduleMessage(
         channel="#welcome",
         text=msg,
         post_at=future_time,

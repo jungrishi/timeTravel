@@ -23,9 +23,6 @@ def create_app():
     init_logging(app)
     return app
 
-def verify_slack_token():
-    return 
-
 if __name__ == '__main__':
     application = create_app()
     application.run(host='0.0.0.0', port=Config.PORT, debug=True)

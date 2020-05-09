@@ -6,7 +6,7 @@ authorizations = {
         "type": "slackKey",
         "in": "header",
         "name": "Authorization",
-        "template": "Bearer {slackKey}"
+        "template": "{slackKey}"
     }
 }
 

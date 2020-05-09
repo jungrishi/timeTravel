@@ -10,6 +10,7 @@ from resources.api import api as slack_api
 class SlackTest(Resource):
     def get(self):
         return "Hello"
+    
     def post(self):
         print(request.get_json())
         info = request.form
