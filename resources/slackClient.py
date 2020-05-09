@@ -8,8 +8,6 @@ from config import Config
 
 time_travel_slack_client = WebClient(Config.SLACK_BOT_TOKEN)
 
-# is_ok = time_travel_slack_client.api_call("users.list").get('ok')
-
 def with_logging(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):

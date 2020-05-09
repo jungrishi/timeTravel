@@ -1,6 +1,8 @@
 from http import HTTPStatus
 from flask_restplus import Api
 
+from logger import logger
+
 authorizations = {
     "slackKey": {
         "type": "slackKey",
@@ -18,6 +20,7 @@ api = Api(
     authorizations=authorizations
 )
 
-@api.errorhandler(BaseException)
-def not_found_error(error):
-    return error
+@api.errorhandler(GenericException)
+def generic_exception(error: GenericException):
+    logger(error)
+    return error.get_response()
