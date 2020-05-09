@@ -20,7 +20,7 @@ api = Api(
     authorizations=authorizations
 )
 
-@api.errorhandler(GenericException)
-def generic_exception(error: GenericException):
+@api.errorhandler(Exception)
+def generic_exception(error: Exception):
     logger(error)
     return error.get_response()
