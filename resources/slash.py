@@ -22,8 +22,5 @@ class SlackTest(Resource):
         msg = 'Welcome Scheduled Message In python'
         try:
             send_message(msg, future_time)
-            return {
-            "data": "hello"
-            }
         except SlackApiError as error:
             abort(HTTPStatus.BAD_REQUEST, "Please tRY")

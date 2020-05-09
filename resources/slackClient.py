@@ -19,8 +19,8 @@ def with_logging(func):
 
 @with_logging
 def send_message(msg, future_time):
-    is_ok = time_travel_slack_client.api_call("users.list").get('ok')
-    logger.debug("IS_OK",is_ok)
+    # is_ok = time_travel_slack_client.api_call("users.list").get('ok')
+    logger.debug("IS_OK*************")
     
     updateMsg = time_travel_slack_client.chat_scheduleMessage(
         channel="#welcome",
