@@ -7,6 +7,6 @@ class BaseConfig():
     LOG_LEVEL = os.getenv("LOG_LEVEL", "DEBUG")
     LOG_PATH = os.getenv("LOG_PATH", "logs/timeTravel.log")
     PORT = os.getenv("PORT", 33507)
-    SLACK_SIGNING_SECRET = os.environ("SLACK_SIGNING_SECRET", "")
+    SLACK_SIGNING_SECRET = os.getenv("SLACK_SIGNING_SECRET", "")
     
 Config = BaseConfig()    
