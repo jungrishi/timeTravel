@@ -5,6 +5,7 @@ from logger import logger
 from datetime import timedelta, datetime
 from slack import WebClient
 from flask_restplus import abort
+from slackeventsapi import SlackEventAdapter
 
 from config import Config
 
@@ -21,7 +22,6 @@ def with_logging(func):
 
 @with_logging
 def send_message(msg, future_time):
-    # is_ok = time_travel_slack_client.api_call("users.list").get('ok')
     try:
         updateMsg = time_travel_slack_client.chat_scheduleMessage(
             channel="#welcome",
@@ -30,6 +30,10 @@ def send_message(msg, future_time):
             as_user=True
         )
         logger.debug('print slack-api',updateMsg)
+        
+        return {
+            "data": "Success"
+        }, 200
     except:
         abort(500, "Server Error")
 
