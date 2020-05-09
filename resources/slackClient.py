@@ -4,6 +4,8 @@ import time
 from logger import logger
 from datetime import timedelta, datetime
 from slack import WebClient
+from flask_restplus import abort
+
 from config import Config
 
 time_travel_slack_client = WebClient(Config.SLACK_BOT_TOKEN)
@@ -20,13 +22,14 @@ def with_logging(func):
 @with_logging
 def send_message(msg, future_time):
     # is_ok = time_travel_slack_client.api_call("users.list").get('ok')
-    logger.debug("IS_OK*************")
-    
-    updateMsg = time_travel_slack_client.chat_scheduleMessage(
-        channel="#welcome",
-        text=msg,
-        post_at=future_time,
-        as_user=True
-    )
-    
+    try:
+        updateMsg = time_travel_slack_client.chat_scheduleMessage(
+            channel="#welcome",
+            text=msg,
+            post_at=future_time,
+            as_user=True
+        )
+        logger.debug('print slack-api',updateMsg)
+    except:
+        abort(500, "Server Error")
 
