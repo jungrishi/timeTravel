@@ -18,9 +18,10 @@ class SlackTest(Resource):
         print(request.form)
         # info = request.form
         current_time = datetime.now()
+        print(current_time)
         future_time = (current_time + timedelta(minutes=1)).timestamp()
         msg = 'Welcome Scheduled Message In python'
         try:
-            send_message(msg, future_time)
+            return send_message(msg, future_time)
         except SlackApiError as error:
             abort(HTTPStatus.BAD_REQUEST, "Please tRY")
