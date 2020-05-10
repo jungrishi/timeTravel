@@ -77,7 +77,7 @@ def sender_decorator(func):
             as_user=True
         )
         if updateMsg['ok'] == True:
-            return {"data": "Success"}, 200
+            return {"data": "Success"}
         else:
             abort(404)
     return wrapper
