@@ -76,10 +76,7 @@ def sender_decorator(func):
             post_at=result['timestamp'],
             as_user=True
         )
-        if updateMsg['ok'] == True:
-            return {"data": "Success"}
-        else:
-            abort(404)
+        return result
     return wrapper
 
 @with_logging
