@@ -75,7 +75,7 @@ def sender_decorator(func):
             updateMsg = time_travel_slack_client.chat_scheduleMessage(
             channel=result['channel_id'],
             text=result['text'],
-            post_at=result['time_stamp'],
+            post_at=result['timestamp'],
             as_user=True
         )
             return {"Notification approved"}
