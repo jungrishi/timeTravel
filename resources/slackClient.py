@@ -45,7 +45,7 @@ def get_request_body(payload):
                                                                                                                         'text',
                                                                                                                         'response_url',
                                                                                                                         'trigger_id')
-    return f'''token={token}team_id={team_id}&team_domain={team_domain}&channel_id={channel_id}&channel_name={channel_name}&user_id={user_id}&user_name={user_name}&command={command}&text={text}&response_url={response_url}&trigger_id={trigger_id}'''
+    return f'''token={token}&team_id={team_id}&team_domain={team_domain}&channel_id={channel_id}&channel_name={channel_name}&user_id={user_id}&user_name={user_name}&command={command}&text={text}&response_url={response_url}&trigger_id={trigger_id}'''
 
 def generate_signature(request_body, timestamp):
     str_basestring = str.encode('v0:' + timestamp + ':' + get_request_body(request_body))
