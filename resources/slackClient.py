@@ -10,13 +10,14 @@ import random
 import hashlib
 import hmac
 from http import HTTPStatus
-from operator import itemgetter
+from urllib.parse import quote_plus
 
 from config import Config
 
 time_travel_slack_client = WebClient(Config.SLACK_BOT_TOKEN)
 
 pluck_payloads = lambda dict, *args: (dict[arg] for arg in args) #destructing the payloads to get required values from dict
+quote_payload = lambda dict: { k : quote_plus(str(v)) for k,v in dict.items()}
 
 def is_private(event):
     return event.get("channel").startswith('D')
@@ -33,7 +34,8 @@ def send_response(user_mention):
     return response_template.format(mention=user_mention)
 
 def get_request_body(payload):
-    token, team_id, team_domain, channel_id, channel_name, user_id, user_name, command, text, response_url, trigger_id = pluck_payloads(payload,
+    quoted_payload = quote_payload(payload)
+    token, team_id, team_domain, channel_id, channel_name, user_id, user_name, command, text, response_url, trigger_id = pluck_payloads(quoted_payload,
                                                                                                                         'token',
                                                                                                                         'team_id',
                                                                                                                         'team_domain',
@@ -49,15 +51,11 @@ def get_request_body(payload):
 
 def generate_signature(request_body, timestamp):
     str_basestring = str.encode('v0:' + timestamp + ':' + get_request_body(request_body))
-    print(str_basestring)
     sign_hash = 'v0=' + hmac.new(str.encode(Config.SLACK_SIGNING_SECRET), str_basestring, hashlib.sha256).hexdigest()
     return sign_hash
 
 def compare_signature(hashed_signature, request_signature):
-    aa = hmac.compare_digest(hashed_signature, request_signature)
-    print(aa)
-    print("************")
-    return aa
+    return hmac.compare_digest(hashed_signature, request_signature)
 
 def with_logging(func):
     @functools.wraps(func)

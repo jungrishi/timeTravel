@@ -35,7 +35,7 @@ class SlackTest(Resource):
         payload = parser.parse_args()
         timestamp = request.headers['X-Slack-Request-Timestamp']
         signature = request.headers['X-Slack-Signature']
-        if abs(time.time() - float(timestamp)) > 60 * 30:
+        if abs(time.time() - float(timestamp)) > 60 * 300:
             abort(HTTPStatus.NOT_ACCEPTABLE, HTTPStatus.NOT_ACCEPTABLE.phrase)
         try:
             send_message(payload,timestamp, signature)
