@@ -71,16 +71,14 @@ def sender_decorator(func):
     def wrapper(*args, **kwargs):
         result = func(*args, **kwargs)
         print(result)
-        try:
-            updateMsg = time_travel_slack_client.chat_scheduleMessage(
+        updateMsg = time_travel_slack_client.chat_scheduleMessage(
             channel=result['channel_id'],
             text=result['text'],
             post_at=result['timestamp'],
             as_user=True
         )
-            return {"Notification approved"}
-        except:
-            pass
+        print(updateMsg)
+        return {"Notification approved"}
     return wrapper
 
 @with_logging
