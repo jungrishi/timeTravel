@@ -91,5 +91,5 @@ def send_message(payload, timestamp, signature):
 
     command, text, channel_id = pluck_payloads(payload, 'command', 'text', 'channel_id') 
     timestamp = get_time(text)
-    return {"channel_id":channel_id, "timestamp":timestamp, "text":text }, 200
+    return {"channel_id":channel_id, "timestamp":timestamp, "text":text }
 
