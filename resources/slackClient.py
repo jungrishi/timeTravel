@@ -70,15 +70,16 @@ def with_logging(func):
 def sender_decorator(func):
     def wrapper(*args, **kwargs):
         result = func(*args, **kwargs)
-        print(result)
         updateMsg = time_travel_slack_client.chat_scheduleMessage(
             channel=result['channel_id'],
             text=result['text'],
             post_at=result['timestamp'],
             as_user=True
         )
-        print(updateMsg)
-        return {"Notification approved"}
+        if updateMsg['ok'] == True:
+            return {"data": "Success"}, 200
+        else:
+            abort(404)
     return wrapper
 
 @with_logging
@@ -90,5 +91,5 @@ def send_message(payload, timestamp, signature):
 
     command, text, channel_id = pluck_payloads(payload, 'command', 'text', 'channel_id') 
     timestamp = get_time(text)
-    return {"channel_id":channel_id, "timestamp":timestamp, "text":text }
+    return {"channel_id":channel_id, "timestamp":timestamp, "text":text }, 200
 

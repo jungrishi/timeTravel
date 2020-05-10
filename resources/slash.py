@@ -39,6 +39,6 @@ class SlackTest(Resource):
             abort(HTTPStatus.NOT_ACCEPTABLE, HTTPStatus.NOT_ACCEPTABLE.phrase)
         try:
             send_message(payload,timestamp, signature)
-            return payload
+            return {"Notification approved"}, 200
         except SlackApiError as error:
             abort(HTTPStatus.BAD_REQUEST, error)
