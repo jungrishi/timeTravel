@@ -8,6 +8,7 @@ from flask_restplus import abort
 from slackeventsapi import SlackEventAdapter
 import random
 import hashlib
+import hmac
 from http import HTTPStatus
 from operator import itemgetter
 
@@ -31,14 +32,41 @@ def send_response(user_mention):
     
     return response_template.format(mention=user_mention)
 
+def get_request_body(payload):
+    token, team_id, team_domain, channel_id, channel_name, user_id, user_name, command, text, response_url, trigger_id = pluck_payloads(payload,
+                                                                                                                        'token',
+                                                                                                                        'team_id',
+                                                                                                                        'team_domain',
+                                                                                                                        'channel_id',
+                                                                                                                        'channel_name',
+                                                                                                                        'user_id',
+                                                                                                                        'user_name',
+                                                                                                                        'command',
+                                                                                                                        'text',
+                                                                                                                        'response_url',
+                                                                                                                        'trigger_id')
+    return f'''token={token}
+                team_id={team_id}&
+                team_domain={team_domain}&
+                channel_id={channel_id}&
+                channel_name={channel_name}&
+                user_id={user_id}&
+                user_name={user_name}&
+                command={command}&
+                text={text}&
+                response_url={response_url}&
+                trigger_id={trigger_id}'''
+
 def generate_signature(request_body, timestamp):
-    str_basestring = 'v0:' + timestamp + ':' + request_body
-    my_signature = 'v0=' + hashlib.sha256(Config.SLACK_SIGNING_SECRET, str_basestring).hexdigest()
-    return my_signature
+    str_basestring = str.encode('v0:' + timestamp + ':' + get_request_body(request_body))
+    sign_hash = 'v0=' + hmac.new(str.encode(Config.SLACK_SIGNING_SECRET), str_basestring, hashlib.sha256).hexdigest()
+    return sign_hash
 
 def compare_signature(hashed_signature, request_signature):
-    signature, salt = hashed_signature.split(':')
-    return signature == hashlib.sha256(salt.encode() + request_signature.encode()).hexdigest()
+    aa = hmac.compare_digest(hashed_signature, request_signature)
+    print(aa)
+    print("************")
+    return aa
 
 def with_logging(func):
     @functools.wraps(func)
@@ -65,10 +93,9 @@ def sender_decorator(func):
 @with_logging
 @sender_decorator
 def send_message(payload, timestamp, signature):
-    print(payload)
     hashed_signature = generate_signature(payload, timestamp)
     if not compare_signature(hashed_signature,signature):
-        abort(HTTPStatus.METHOD_NOT_ALLOWED, HTTPStatus.METHOD_NOT_ALLOWED.phrase)
+        abort(HTTPStatus.METHOD_NOT_ALLOWED, message="Cannot Verify The App")
         
     command, text, channel_id = pluck_payloads(payload, 'command', 'text', 'channel_id') 
     print(command)
