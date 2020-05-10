@@ -32,7 +32,6 @@ class SlackTest(Resource):
     
     @slack_api.doc(parser=parser)
     def post(self):
-        print(request.body)
         payload = parser.parse_args()
         timestamp = request.headers['X-Slack-Request-Timestamp']
         signature = request.headers['X-Slack-Signature']

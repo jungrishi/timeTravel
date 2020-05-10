@@ -65,6 +65,7 @@ def sender_decorator(func):
 @with_logging
 @sender_decorator
 def send_message(payload, timestamp, signature):
+    print(payload)
     hashed_signature = generate_signature(payload, timestamp)
     if not compare_signature(hashed_signature,signature):
         abort(HTTPStatus.METHOD_NOT_ALLOWED, HTTPStatus.METHOD_NOT_ALLOWED.phrase)
