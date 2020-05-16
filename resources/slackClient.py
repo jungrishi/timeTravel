@@ -55,12 +55,14 @@ def command_parser(payload):
     try:
         parts = payload["text"].split(" ")
         verb = VERBS[payload['command']]
-        print(VERBS[payload['command']])
         whom = parts[1]
         message = parts[2:]
-        print(message)
-        if (whom[0] != '@'):
+        
+        if whom[0] != '@':
             whom = '@' + whom
+            
+        if whom == '@channel' or whom == '@here':
+            whom = payload['channel_id'] 
 
         find_index = 0
         count = 1
@@ -87,7 +89,6 @@ def command_parser(payload):
 
         payload['timestamp'] = timestamp
         payload['text'] = message_to_send
-        logger.debug('payload: "%s"', payload)
         return payload
     except Exception as err:
         raise err.with_traceback() #command Parser Error
