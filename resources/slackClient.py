@@ -146,8 +146,10 @@ def sender_decorator(func):
 @sender_decorator
 def send_message(payload, timestamp, signature):
     hashed_signature = generate_signature(payload, timestamp)
-    # if not compare_signature(hashed_signature,signature):
-    #     abort(HTTPStatus.UNAUTHORIZED, message="Not A VAlid User")
+    print(hashed_signature)
+    print(signature)
+    if not compare_signature(hashed_signature,signature):
+        abort(HTTPStatus.UNAUTHORIZED, message="Not A VAlid User")
     result = command_parser(payload)
     command, text, channel_id,timestamp = pluck_payloads(result, 'command', 'text', 'channel_id', 'timestamp') 
 
