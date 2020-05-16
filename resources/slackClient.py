@@ -20,7 +20,7 @@ from config import Config
 inflect_engine = inflect.engine()
 
 VERBS = {
-    "/travel": ["send", "after", "in"]
+    Config.COMMAND: ["send", "after", "in"]    
 }
 
 time_period ={
@@ -146,8 +146,6 @@ def sender_decorator(func):
 @sender_decorator
 def send_message(payload, timestamp, signature):
     hashed_signature = generate_signature(payload, timestamp)
-    print(hashed_signature)
-    print(signature)
     if not compare_signature(hashed_signature,signature):
         abort(HTTPStatus.UNAUTHORIZED, message="Not A VAlid User")
     result = command_parser(payload)
