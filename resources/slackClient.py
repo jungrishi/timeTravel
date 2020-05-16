@@ -23,6 +23,8 @@ VERBS = {
     Config.COMMAND: ["send", "after", "in"]    
 }
 
+global_mentions = ['@channel', '@here']
+
 time_period ={
     "second": {
         "mul_factor": 1
@@ -57,13 +59,13 @@ def command_parser(payload):
         verb = VERBS[payload['command']]
         whom = parts[1]
         message = parts[2:]
-        
-        if whom[0] != '@':
-            whom = '@' + whom
             
-        if whom == '@channel' or whom == '@here':
+        if whom in global_mentions and whom[0] == '@':
             whom = payload['channel_id'] 
 
+        else:
+            raise Exception("Mention Properly")
+            
         find_index = 0
         count = 1
         for i in range(len(message)-1, 0, -1):
