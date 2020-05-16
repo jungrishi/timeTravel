@@ -89,8 +89,8 @@ def command_parser(payload):
         payload['text'] = message_to_send
         logger.debug('payload: "%s"', payload)
         return payload
-    except:
-        raise Exception("Error") #command Parser Error
+    except Exception as err:
+        raise err.with_traceback() #command Parser Error
 
 def get_request_body(payload):
     quoted_payload = quote_payload(payload)

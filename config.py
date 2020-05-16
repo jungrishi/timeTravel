@@ -8,6 +8,6 @@ class BaseConfig():
     LOG_PATH = os.getenv("LOG_PATH", "logs/timeTravel.log")
     PORT = os.getenv("PORT", 33507)
     SLACK_SIGNING_SECRET = os.getenv("SLACK_SIGNING_SECRET", "")
-    COMMAND = os.getenv("SLACK_COMMAND", "/test-command")
+    COMMAND = os.getenv("SLACK_COMMAND", "/test-travel")
 
 Config = BaseConfig()    
