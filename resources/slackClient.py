@@ -5,6 +5,9 @@ from logger import logger
 from datetime import timedelta, datetime
 from slack import WebClient
 from flask_restplus import abort
+import inflect
+
+from slack.errors import SlackApiError, SlackClientError, SlackRequestError
 from slackeventsapi import SlackEventAdapter
 import random
 import hashlib
@@ -14,25 +17,80 @@ from urllib.parse import quote_plus
 
 from config import Config
 
+inflect_engine = inflect.engine()
+
+VERBS = {
+    "/travel": ["send", "after", "in"]
+}
+
+time_period ={
+    "second": {
+        "mul_factor": 1
+    }, 
+    "minute": {
+        "mul_factor": 60
+    },
+    "hour": {
+        "mul_factor": 60*60
+    }
+}
+
 time_travel_slack_client = WebClient(Config.SLACK_BOT_TOKEN)
 
 pluck_payloads = lambda dict, *args: (dict[arg] for arg in args) #destructing the payloads to get required values from dict
 quote_payload = lambda dict: { k : quote_plus(str(v)) for k,v in dict.items()}
 
-def is_private(event):
-    return event.get("channel").startswith('D')
+def get_users():
+    try:
+        request = time_travel_slack_client.channels_info(token=Config.SLACK_BOT_TOKEN, channel='#ideas')
+        if request['ok']:
+            for item in request['members']:
+                print(item['real_name'])
+                print(item['deleted'])
 
-def get_time(message):
-    [arr_item] = re.findall(r'[0-9]+', message)
-    return time.time() + int(arr_item) * 60
+    except SlackApiError as err:
+        raise Exception(err)
 
-def send_response(user_mention):
-    response_template = random.choice(['Sup, {mention}...',
-                                       'Yo!',
-                                       'Hola {mention}',
-                                       'Bonjour!'])
-    
-    return response_template.format(mention=user_mention)
+def command_parser(payload):
+    try:
+        parts = payload["text"].split(" ")
+        verb = VERBS[payload['command']]
+        print(VERBS[payload['command']])
+        whom = parts[1]
+        message = parts[2:]
+        print(message)
+        if (whom[0] != '@'):
+            whom = '@' + whom
+
+        find_index = 0
+        count = 1
+        for i in range(len(message)-1, 0, -1):
+            if message[i] in verb:
+                find_index = i
+                count = 0
+                break
+        if count == 1:
+            raise Exception("Error")
+
+        text_message = message[:find_index]
+        time_ = message[find_index+1:]
+        message_to_send = f'<{whom}>' + " " + " ".join(i for i in text_message)
+        timestamp = -1
+        error = 0
+        for k, v in time_period.items():
+            if time_[1] in k or time_[1] in inflect_engine.plural(k):
+                time_in_second = int(time_[0]) * int(v['mul_factor'])
+                timestamp = time.time() + int(time_in_second)
+                break
+        if timestamp < 0 :
+            raise Exception("error")
+
+        payload['timestamp'] = timestamp
+        payload['text'] = message_to_send
+        logger.debug('payload: "%s"', payload)
+        return payload
+    except:
+        raise Exception("Error") #command Parser Error
 
 def get_request_body(payload):
     quoted_payload = quote_payload(payload)
@@ -70,12 +128,17 @@ def with_logging(func):
 def sender_decorator(func):
     def wrapper(*args, **kwargs):
         result = func(*args, **kwargs)
-        updateMsg = time_travel_slack_client.chat_scheduleMessage(
-            channel=result['channel_id'],
-            text=result['text'],
-            post_at=result['timestamp'],
-            as_user=True
-        )
+        try:
+            updateMsg = time_travel_slack_client.chat_scheduleMessage(
+                channel=result['channel_id'],
+                text=result['text'],
+                post_at=result['timestamp'],
+                as_user=True
+            )
+            assert updateMsg["message"]["text"] == result['text']
+        except SlackApiError as err:
+            raise err
+    
         return result
     return wrapper
 
@@ -83,10 +146,10 @@ def sender_decorator(func):
 @sender_decorator
 def send_message(payload, timestamp, signature):
     hashed_signature = generate_signature(payload, timestamp)
-    if not compare_signature(hashed_signature,signature):
-        abort(HTTPStatus.METHOD_NOT_ALLOWED, message="Cannot Verify The App")
+    # if not compare_signature(hashed_signature,signature):
+    #     abort(HTTPStatus.UNAUTHORIZED, message="Not A VAlid User")
+    result = command_parser(payload)
+    command, text, channel_id,timestamp = pluck_payloads(result, 'command', 'text', 'channel_id', 'timestamp') 
 
-    command, text, channel_id = pluck_payloads(payload, 'command', 'text', 'channel_id') 
-    timestamp = get_time(text)
     return {"channel_id":channel_id, "timestamp":timestamp, "text":text }
 
