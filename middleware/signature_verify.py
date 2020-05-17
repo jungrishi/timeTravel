@@ -1,17 +1,32 @@
 from functools import wraps
-import random
 import hashlib
 import hmac
 from urllib.parse import quote_plus
-from flask import request, Response 
+from flask import request, Response, abort 
+import requests
+import time
 from werkzeug.datastructures import ImmutableMultiDict, MultiDict
+from http import HTTPStatus
 
+from slack.errors import SlackRequestError, SlackClientError, SlackApiError
+from exceptions.custom_exception import AuthException, RequestTimeOutException, InvalidSignature
 from config import Config
-from slack.errors import SlackApiError, SlackClientError, SlackRequestError
+from utils.util_functions import quote_payload, pluck_payloads
 
-quote_payload = lambda dict: { k : quote_plus(str(v)) for k,v in dict.items()}
-
-def get_request_body(payload):
+def get_request_body(req):
+    payload = {}
+    payload['token'] = req.get('token')
+    payload['team_id'] = req.get('team_id')
+    payload['team_domain'] = req.get('team_domain')
+    payload['channel_id'] = req.get('channel_id')
+    payload['channel_name'] = req.get('channel_name')
+    payload['user_id'] = req.get('user_id')
+    payload['user_name'] = req.get('user_name')
+    payload['command'] = req.get('command')
+    payload['text'] = req.get('text')
+    payload['response_url'] = req.get('response_url')
+    payload['trigger_id'] = req.get('trigger_id')
+    
     quoted_payload = quote_payload(payload)
     token, team_id, team_domain, channel_id, channel_name, user_id, user_name, command, text, response_url, trigger_id = pluck_payloads(quoted_payload,
                                                                                                                         'token',
@@ -38,9 +53,14 @@ def compare_signature(hashed_signature, request_signature):
 def signature_verification_middleware(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
-        payload = MultiDict(request.form)
-        print(payload)
-        print(payload.get('text'))
-        hashed_sign = generate_signature()
-        return func(*args, **kwargs)
-    return decorated_function        
+        timestamp = request.headers['X-Slack-Request-Timestamp']
+        signature = request.headers['X-Slack-Signature']
+        if abs(time.time() - float(timestamp)) > 60 * 3:
+            raise SlackApiError("cannnnno", response=HTTPStatus.REQUEST_TIMEOUT)
+        get_form_body = MultiDict(request.form)
+        hashed_signature = generate_signature(get_form_body, timestamp)
+        if compare_signature(hashed_signature, signature):
+            return func(*args, **kwargs)
+        else:
+            raise SlackApiError("Cannnot verify signature", response=HTTPStatus.FORBIDDEN)
+    return decorated_function

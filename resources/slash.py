@@ -35,12 +35,8 @@ class SlackTest(Resource):
     @signature_verification_middleware
     def post(self):
         payload = parser.parse_args()
-        timestamp = request.headers['X-Slack-Request-Timestamp']
-        signature = request.headers['X-Slack-Signature']
-        if abs(time.time() - float(timestamp)) > 60 * 300:
-            abort(HTTPStatus.NOT_ACCEPTABLE, HTTPStatus.NOT_ACCEPTABLE.phrase)
+
         try:
-            send_message(payload,timestamp, signature)
-            return {"data": "Notification approved"}
+            return send_message(payload)
         except SlackApiError as error:
             abort(HTTPStatus.BAD_REQUEST, error)
