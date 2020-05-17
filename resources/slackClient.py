@@ -42,17 +42,6 @@ time_travel_slack_client = WebClient(Config.SLACK_BOT_TOKEN)
 pluck_payloads = lambda dict, *args: (dict[arg] for arg in args) #destructing the payloads to get required values from dict
 quote_payload = lambda dict: { k : quote_plus(str(v)) for k,v in dict.items()}
 
-def get_users():
-    try:
-        request = time_travel_slack_client.channels_info(token=Config.SLACK_BOT_TOKEN, channel='#ideas')
-        if request['ok']:
-            for item in request['members']:
-                print(item['real_name'])
-                print(item['deleted'])
-
-    except SlackApiError as err:
-        raise Exception(err)
-
 def command_parser(payload):
     try:
         parts = payload["text"].split(" ")
