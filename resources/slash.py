@@ -6,7 +6,8 @@ from http import HTTPStatus
 from werkzeug.datastructures import ImmutableMultiDict, MultiDict
 import time
 
-from resources.slackClient import send_message
+from middleware.signature_verify import signature_verification_middleware
+from services.slackClient import send_message
 from resources.api import api as slack_api
 
 
@@ -31,6 +32,7 @@ class SlackTest(Resource):
         return "Hello"
     
     @slack_api.doc(parser=parser)
+    @signature_verification_middleware
     def post(self):
         payload = parser.parse_args()
         timestamp = request.headers['X-Slack-Request-Timestamp']

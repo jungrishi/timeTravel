@@ -7,7 +7,6 @@ from  config import Config
 from resources.api import api
 from slashCommand import *
 from logger import init_logging
-from resources.slackClient import *
 
 def simple_app():
     app = Flask(__name__)
