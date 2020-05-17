@@ -59,12 +59,13 @@ def command_parser(payload):
         verb = VERBS[payload['command']]
         whom = parts[1]
         message = parts[2:]
-            
-        if whom in global_mentions and whom[0] == '@':
-            whom = '@' + payload['channel_name']
+        whom_mentions = ''
 
-        else:
-            raise Exception("Mention Properly")
+        if whom[0] != '@':
+            whom_mentions = '@' + whom
+
+        if whom in global_mentions:
+            whom_mentions = '!' + whom
 
         find_index = 0
         count = 1
@@ -78,7 +79,7 @@ def command_parser(payload):
 
         text_message = message[:find_index]
         time_ = message[find_index+1:]
-        message_to_send = f'<{whom}>' + " " + " ".join(i for i in text_message)
+        message_to_send = f'<{whom_mentions}>' + " " + " ".join(i for i in text_message)
         timestamp = -1
         error = 0
         for k, v in time_period.items():
