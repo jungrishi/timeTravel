@@ -45,6 +45,9 @@ quote_payload = lambda dict: { k : quote_plus(str(v)) for k,v in dict.items()}
 def command_parser(payload):
     try:
         parts = payload["text"].split(" ")
+        print(payload['command'])
+        print(payload)
+        print("******************")
         verb = VERBS[payload['command']]
         whom = parts[1]
         message = parts[2:]
