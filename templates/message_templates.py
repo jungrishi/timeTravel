@@ -6,13 +6,14 @@ class MessageTemplate:
         self.time = time
     
     def get_template(self):
-        get_block = self.__dict__()
+        get_block = self.__json__()
         print(get_block)
-        response_template = jsonify(get_block)
+        response_template = get_block
         return response_template
     
-    def __dict__(self):
-        blocks = [
+    def __json__(self):
+        return  {
+            "blocks" : [
 	            	{
 	            		"type": "section",
 	            		"text": {
@@ -29,9 +30,9 @@ class MessageTemplate:
 	            			},
 	            			{
 	            				"type": "mrkdwn",
-	            				"text": f"*When:*\n{self.time}"
+	            				"text": f"*When:(GMT)*\n{self.time} *+5:45*"
 	            			}
 	            		]
 	            	}
-	            ]
-        return blocks
+	            ]}
+        
