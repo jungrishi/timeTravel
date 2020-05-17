@@ -61,11 +61,11 @@ def command_parser(payload):
         message = parts[2:]
             
         if whom in global_mentions and whom[0] == '@':
-            whom = '@' + payload['channel_id'] 
+            whom = '@' + payload['channel_name']
 
         else:
             raise Exception("Mention Properly")
-            
+
         find_index = 0
         count = 1
         for i in range(len(message)-1, 0, -1):
