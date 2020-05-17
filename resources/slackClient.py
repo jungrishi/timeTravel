@@ -23,7 +23,7 @@ VERBS = {
     Config.COMMAND: ["send", "after", "in"]    
 }
 
-global_mentions = ['@channel', '@here']
+global_mentions = ['@channel', '@here', '@everyone']
 
 time_period ={
     "second": {
