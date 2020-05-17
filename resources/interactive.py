@@ -25,20 +25,12 @@ parser.add_argument('text', required = True, type=str, location = 'form')
 parser.add_argument('response_url', required = True, type=str, location = 'form')
 parser.add_argument('trigger_id', required = True, type=str, location = 'form')
 
-@slack_api.route("/slack/timetravel")
+
+@slack_api.route("/slack/interaction")
 class SlackTest(Resource):
     def get(self):
         return "Hello"
-    
+
     @slack_api.doc(parser=parser)
     def post(self):
-        payload = parser.parse_args()
-        timestamp = request.headers['X-Slack-Request-Timestamp']
-        signature = request.headers['X-Slack-Signature']
-        if abs(time.time() - float(timestamp)) > 60 * 300:
-            abort(HTTPStatus.NOT_ACCEPTABLE, HTTPStatus.NOT_ACCEPTABLE.phrase)
-        try:
-            send_message(payload,timestamp, signature)
-            return {"data": "Notification approved"}
-        except SlackApiError as error:
-            abort(HTTPStatus.BAD_REQUEST, error)
+        pass
