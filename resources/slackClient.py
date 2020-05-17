@@ -62,10 +62,12 @@ def command_parser(payload):
         whom_mentions = ''
 
         if whom[0] != '@':
-            whom_mentions = '@' + whom
+            raise Exception("Mention user to send") 
 
         if whom in global_mentions:
-            whom_mentions = '!' + whom
+            whom_mentions = '!' + whom[1:]
+        else:
+            whom_mentions = whom
 
         find_index = 0
         count = 1
