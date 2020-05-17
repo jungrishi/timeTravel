@@ -39,7 +39,7 @@ def schedule_message(result):
             )
             local_time=time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime(result['timestamp']))
             return_data = MessageTemplate(result['text'], local_time)
-            return return_data.get_template()
+            return return_data.get_template(), 200
         except SlackApiError as err:
             raise err
 

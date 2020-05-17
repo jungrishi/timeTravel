@@ -30,7 +30,7 @@ class MessageTemplate:
 	            			},
 	            			{
 	            				"type": "mrkdwn",
-	            				"text": f"*When:(GMT)*\n{self.time} *+5:45*"
+	            				"text": f"*When:*\n{self.time} *+5:45-GMT*"
 	            			}
 	            		]
 	            	}
