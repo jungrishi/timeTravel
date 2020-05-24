@@ -40,4 +40,4 @@ class SlackClient():
             raise SlackApiError('', MessageTemplate(
                 "Error Sending Scheduled Message",
                 time=time.time()
-            ))
+            ).get_template())
