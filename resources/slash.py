@@ -48,7 +48,7 @@ class SlackTest(Resource):
                             "type": "section",
                             "text": {
                                 "type": "mrkdwn",
-                                "text":f"{self.message}"
+                                "text": "Error in the message"
                             }
                         },
                         {

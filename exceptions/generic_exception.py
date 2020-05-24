@@ -25,7 +25,7 @@ class GenericException(Exception):
             return map_dict
 
         def __dict__(self):
-            data = {
+            return {
                     "blocks": [
                         {
                             "type": "section",
