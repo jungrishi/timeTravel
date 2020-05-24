@@ -9,5 +9,6 @@ class BaseConfig():
     PORT = os.getenv("PORT", 33507)
     SLACK_SIGNING_SECRET = os.getenv("SLACK_SIGNING_SECRET", "")
     COMMAND = os.getenv("SLACK_COMMAND", "/test-travel")
+    BOT_ICON = os.getenv("BOT_ICON", ':godmode:')
 
 Config = BaseConfig()    

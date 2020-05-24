@@ -5,6 +5,9 @@ from slack.errors import SlackApiError
 from http import HTTPStatus
 from werkzeug.datastructures import ImmutableMultiDict, MultiDict
 import time
+import logging
+import sys
+import traceback
 
 from middleware.signature_verify import signature_verification_middleware
 from services.slackClient import send_message
@@ -38,5 +41,44 @@ class SlackTest(Resource):
 
         try:
             return send_message(payload)
-        except SlackApiError as error:
-            abort(HTTPStatus.BAD_REQUEST, error)
+        except:
+            return {
+                    "blocks": [
+                        {
+                            "type": "section",
+                            "text": {
+                                "type": "mrkdwn",
+                                "text": "Error in the message"
+                            }
+                        },
+                        {
+                            "type": "actions",
+                            "elements": [
+                                {
+                                    "type": "button",
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "Examples",
+                                        "emoji": True
+                                    },
+                                    "value": "click_me_123"
+                            }
+                        ]
+                    },
+                        {
+        			"type": "section",
+        			"fields": [
+        				{
+        					"type": "plain_text",
+        					"text": "*Send @name Message in 10 minnutes*",
+        					"emoji": True
+        				},
+        				{
+        					"type": "plain_text",
+        					"text": "*Send @name Message in 10 minnutes*",
+        					"emoji": True
+        				}
+        			]
+		        }
+            ]
+        } 

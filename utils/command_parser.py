@@ -15,7 +15,7 @@ def command_parser(payload):
         whom_mentions = ''
 
         if whom[0] != '@':
-            raise UserMentionException
+            raise UserMentionException()
 
         if whom in global_mentions:
             whom_mentions = '!' + whom[1:]
@@ -46,8 +46,8 @@ def command_parser(payload):
             raise CommandParserException
 
         payload['timestamp'] = timestamp
-        payload['text'] = message_to_send
+        payload['message'] = message_to_send
         return payload
-    except Exception as err:
+    except CommandParserException as err:
         raise CommandParserException #command Parser Error
     
