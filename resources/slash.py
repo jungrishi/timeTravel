@@ -41,9 +41,7 @@ class SlackTest(Resource):
 
         try:
             return send_message(payload)
-        except Exception as err:
-            logging.warning("Error: Block->'%s'", sys.exc_info())
-            logging.warning("Error: Block->'%s'", traceback.StackSummary())
+        except:
             return {
                     "blocks": [
                         {
