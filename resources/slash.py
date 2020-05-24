@@ -5,6 +5,9 @@ from slack.errors import SlackApiError
 from http import HTTPStatus
 from werkzeug.datastructures import ImmutableMultiDict, MultiDict
 import time
+import logging
+import sys
+import traceback
 
 from middleware.signature_verify import signature_verification_middleware
 from services.slackClient import send_message
@@ -38,27 +41,9 @@ class SlackTest(Resource):
 
         try:
             return send_message(payload)
-        except SlackApiError as error:
-            return {
-            "blocks" : [
-	            	{
-	            		"type": "section",
-	            		"text": {
-	            			"type": "mrkdwn",
-	            			"text": f"You have a new Scheduled Message:\n* <{self.message}>*"
-	            		}
-	            	},
-	            	{
-	            		"type": "section",
-	            		"fields": [
-	            			{
-	            				"type": "mrkdwn",
-	            				"text": "*Type:*\nScheduled Message"
-	            			},
-	            			{
-	            				"type": "mrkdwn",
-	            				"text": f"*When:*\n{self.time} *+5:45-GMT*"
-	            			}
-	            		]
-	            	}
-	            ]} 
+        except Exception as err:
+            logging.warning("Error: Block->'%s'", sys.exc_info())
+            logging.warning("Error: Block->'%s'", traceback.StackSummary())
+            cla, exc, trb= sys.exc_info()
+            excArgs = exc.__dict__["args"]
+            return excArgs

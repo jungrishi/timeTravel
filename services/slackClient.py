@@ -15,3 +15,5 @@ def send_message(payload):
     is_send = bot.send_message()
     if is_send:
         return bot.default_reply()
+    else:
+        raise Exception

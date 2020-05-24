@@ -15,7 +15,7 @@ def command_parser(payload):
         whom_mentions = ''
 
         if whom[0] != '@':
-            raise UserMentionException
+            raise UserMentionException()
 
         if whom in global_mentions:
             whom_mentions = '!' + whom[1:]
