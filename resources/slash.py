@@ -39,4 +39,26 @@ class SlackTest(Resource):
         try:
             return send_message(payload)
         except SlackApiError as error:
-            abort(HTTPStatus.BAD_REQUEST, error)
+            return {
+            "blocks" : [
+	            	{
+	            		"type": "section",
+	            		"text": {
+	            			"type": "mrkdwn",
+	            			"text": f"You have a new Scheduled Message:\n* <{self.message}>*"
+	            		}
+	            	},
+	            	{
+	            		"type": "section",
+	            		"fields": [
+	            			{
+	            				"type": "mrkdwn",
+	            				"text": "*Type:*\nScheduled Message"
+	            			},
+	            			{
+	            				"type": "mrkdwn",
+	            				"text": f"*When:*\n{self.time} *+5:45-GMT*"
+	            			}
+	            		]
+	            	}
+	            ]} 
