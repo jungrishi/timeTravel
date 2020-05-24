@@ -53,30 +53,15 @@ class GenericException(Exception):
         			"fields": [
         				{
         					"type": "plain_text",
-        					"text": "*this is plain_text text*",
+        					"text": "*Send @name Message in 10 minnutes*",
         					"emoji": True
         				},
         				{
         					"type": "plain_text",
-        					"text": "*this is plain_text text*",
-        					"emoji": True
-        				},
-        				{
-        					"type": "plain_text",
-        					"text": "*this is plain_text text*",
-        					"emoji": True
-        				},
-        				{
-        					"type": "plain_text",
-        					"text": "*this is plain_text text*",
-        					"emoji": True
-        				},
-        				{
-        					"type": "plain_text",
-        					"text": "*this is plain_text text*",
+        					"text": "*Send @name Message in 10 minnutes*",
         					"emoji": True
         				}
-			]
-		}
-                ]
-            }
+        			]
+		        }
+            ]
+        }

@@ -44,6 +44,43 @@ class SlackTest(Resource):
         except Exception as err:
             logging.warning("Error: Block->'%s'", sys.exc_info())
             logging.warning("Error: Block->'%s'", traceback.StackSummary())
-            cla, exc, trb= sys.exc_info()
-            excArgs = exc.__dict__["args"]
-            return excArgs
+            return {
+                    "blocks": [
+                        {
+                            "type": "section",
+                            "text": {
+                                "type": "mrkdwn",
+                                "text":f"{self.message}"
+                            }
+                        },
+                        {
+                            "type": "actions",
+                            "elements": [
+                                {
+                                    "type": "button",
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "Examples",
+                                        "emoji": True
+                                    },
+                                    "value": "click_me_123"
+                            }
+                        ]
+                    },
+                        {
+        			"type": "section",
+        			"fields": [
+        				{
+        					"type": "plain_text",
+        					"text": "*Send @name Message in 10 minnutes*",
+        					"emoji": True
+        				},
+        				{
+        					"type": "plain_text",
+        					"text": "*Send @name Message in 10 minnutes*",
+        					"emoji": True
+        				}
+        			]
+		        }
+            ]
+        } 
