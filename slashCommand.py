@@ -26,7 +26,7 @@ class SlackClient():
     
     def schedule_message(self, channel, message, timestamp, as_user=True):
         try:
-            scheduled_message = self.chat_scheduleMessage(
+            scheduled_message = self.time_travel_slack_client.chat_scheduleMessage(
                 channel=channel,
                 text=message,
                 post_at=timestamp,
