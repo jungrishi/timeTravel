@@ -46,8 +46,8 @@ def command_parser(payload):
             raise CommandParserException
 
         payload['timestamp'] = timestamp
-        payload['text'] = message_to_send
+        payload['message'] = message_to_send
         return payload
-    except Exception as err:
+    except CommandParserException as err:
         raise CommandParserException #command Parser Error
     

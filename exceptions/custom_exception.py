@@ -1,7 +1,11 @@
 from http import HTTPStatus
+import time
 
 from exceptions.generic_exception import GenericException
 from slack.errors import SlackClientError, SlackRequestError
+from bot import Bot
+
+
 
 class AuthException(GenericException):
     status = HTTPStatus.UNAUTHORIZED
@@ -20,7 +24,7 @@ class InvalidSignature(AuthException):
     message = "Signature Mismatch"
     
 class CommandParserException(ClientException):
-    message="Message Wrong"    
+    message="Message Wrong"
     
 class UserMentionException(ClientException):
     message="Mention User To Send"   
