@@ -12,8 +12,8 @@ def send_message(payload):
 def parse_github_request(payload):
     print(payload)
     if 'is_pull_request' in payload and payload['is_pull_request']:
-        state, title, body, repo_name, target_branch, app_url = pluck_payloads(payload, 'state', 'title', 'body', 'repo_name', 'target_branch', 'app_url')
-        return get_PR_message(state, title, target_branch, repo_name, body, app_url)
+        state, title, body, repo_name, target_branch, app_url, created_at = pluck_payloads(payload,'state', 'title', 'body', 'repo_name', 'target_branch', 'app_url', 'created_at')
+        return get_PR_message(state, title, target_branch, repo_name, body, app_url, created_at)
     else:
-        state, repo_name, deployed_to, app_url =  pluck_payloads(payload, 'state', 'repo_name', 'deployed_to', 'app_url')  
-        return get_deploy_message(state, deployed_to, repo_name, app_url)
+        state, repo_name, deployed_to, app_url, created_at =  pluck_payloads(payload, 'state', 'repo_name', 'deployed_to', 'app_url', 'created_at')  
+        return get_deploy_message(state, deployed_to, repo_name, app_url, created_at)

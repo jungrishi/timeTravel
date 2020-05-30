@@ -1,6 +1,6 @@
 from datetime import time
 
-def get_deploy_message(status, deployed_to, repo_name, url):
+def get_deploy_message(status, deployed_to, repo_name, url, created_at):
     return [
 		{
 			"type": "section",
@@ -22,7 +22,7 @@ def get_deploy_message(status, deployed_to, repo_name, url):
 				},
 				{
 					"type": "mrkdwn",
-					"text": "*Created At:*\nMar 10, 2015 (3 years, 5 months)"
+					"text": "*Created At:*\n{created_at}"
 				},
 				{
 					"type": "mrkdwn",
@@ -36,13 +36,13 @@ def get_deploy_message(status, deployed_to, repo_name, url):
 		}
 	]
 
-def get_PR_message(status,title, target_branch, repo_name,body, url):
+def get_PR_message(status,title, target_branch, repo_name,body, url, created_at):
     return [
 		{
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": f"New Pull request Created\n*Title*: {title}"
+				"text": f"<!here> New Pull request Created\n*Title*: {title}"
 			}
 		},
 		{
@@ -58,7 +58,7 @@ def get_PR_message(status,title, target_branch, repo_name,body, url):
 				},
 				{
 					"type": "mrkdwn",
-					"text": "*Created At:*\nMar 10, 2015 (3 years, 5 months)"
+					"text": "*Created At:*\n{created_at}"
 				},
 				{
 					"type": "mrkdwn",
