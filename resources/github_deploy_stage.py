@@ -1,4 +1,5 @@
 from flask_restplus import Resource, abort
+from json import dumps
 from flask import request
 from slack.errors import SlackApiError
 from http import HTTPStatus
@@ -11,4 +12,8 @@ class GIthubWebhook(Resource):
         return "Hello! POST for any meaningful resource"
     def post(self):
         payload = request.get_json()
-        return send_message(payload)
+        try:
+            send_message(payload)
+            return dumps({'msg': 'success'})
+        except Exception as err:
+            return dumps({'err': err})

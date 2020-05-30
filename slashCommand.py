@@ -23,8 +23,24 @@ class SlackClient():
     
     def get_channel(self, channel_id):
         return #Channel(self, self.channels[channel_id])
-    def post_message(self, user_id, message):
-        pass
+
+    def post_message(self, channel_id, message):
+        try:
+            scheduled_message = self.time_travel_slack_client.chat_postMessage(
+                channel=channel_id,
+                text="",
+                as_user=True,
+                blocks=message
+            )
+            if scheduled_message['ok'] is True:
+                return True
+            else:
+                raise SlackApiError("Message Not Send")
+        except SlackApiError as err:
+            raise SlackApiError('', MessageTemplate(
+                "Error Sending Scheduled Message",
+                time=time.time()
+            ).get_template())
     
     def schedule_message(self, channel, message, timestamp, as_user=True):
         try:
