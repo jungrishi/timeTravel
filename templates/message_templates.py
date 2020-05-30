@@ -1,6 +1,6 @@
 from flask import jsonify
 
-class MessageTemplate:
+class MessageTemplate(object):
     def __init__(self, message, time, *args, **kwargs):
         self.message = message
         self.time = time
