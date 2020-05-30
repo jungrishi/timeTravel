@@ -8,4 +8,4 @@ def send_message(payload):
     bot = Bot(payload)
     
 def parse_github_request(payload):
-    pass    
+    message_template = "message" 

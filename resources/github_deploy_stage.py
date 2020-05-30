@@ -10,4 +10,5 @@ class GIthubWebhook(Resource):
     def get(self):
         return "Hello! POST for any meaningful resource"
     def post(self):
-        return send_message(request.json)
+        payload = request.get_json()
+        return send_message(payload)

@@ -23,6 +23,8 @@ class SlackClient():
     
     def get_channel(self, channel_id):
         return #Channel(self, self.channels[channel_id])
+    def post_message(self, user_id, message):
+        pass
     
     def schedule_message(self, channel, message, timestamp, as_user=True):
         try:
