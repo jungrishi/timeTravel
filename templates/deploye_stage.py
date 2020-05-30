@@ -22,7 +22,7 @@ def get_deploy_message(status, deployed_to, repo_name, url, created_at):
 				},
 				{
 					"type": "mrkdwn",
-					"text": "*Created At:*\n{created_at}"
+					"text": f"*Created At:*\n{created_at}"
 				},
 				{
 					"type": "mrkdwn",
@@ -58,7 +58,7 @@ def get_PR_message(status,title, target_branch, repo_name,body, url, created_at)
 				},
 				{
 					"type": "mrkdwn",
-					"text": "*Created At:*\n{created_at}"
+					"text": f"*Created At:*\n{created_at}"
 				},
 				{
 					"type": "mrkdwn",
