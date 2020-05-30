@@ -1,0 +1,1 @@
+[D 200530 15:05:06 logger:60] {'url_rule': <Rule '/api/v1/slack/deploy-state' (GET, POST, HEAD, OPTIONS) -> g_ithub_webhook>, 'execution_time': 0.00029158592224121094, 'request_id': '06fe9a96533d48698c0c0304bfbad482', 'request': {'method': 'POST', 'url': 'http://localhost:3000/api/v1/slack/deploy-state', 'payload': ''}, 'response': {'status': '200 OK', 'payload': '"Hello"'}}
