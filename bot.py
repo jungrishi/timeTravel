@@ -23,6 +23,14 @@ class Bot(object):
             message=self.client_data['message'],
             time=self.client_data['timestamp']
         ).get_template()
+        
+    def send_status_message(self):
+        channel_id = Config.CLIENT_ID
+        post_message = self.client_api.post_message(channel_id, self.client_data)
+        if post_message:
+            return True
+        else:
+            raise Exception()
     
     def send_message(self):
         scheduled_message = self.client_api.schedule_message(

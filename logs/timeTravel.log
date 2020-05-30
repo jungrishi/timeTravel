@@ -1,0 +1,26 @@
+[D 200530 15:05:06 logger:60] {'url_rule': <Rule '/api/v1/slack/deploy-state' (GET, POST, HEAD, OPTIONS) -> g_ithub_webhook>, 'execution_time': 0.00029158592224121094, 'request_id': '06fe9a96533d48698c0c0304bfbad482', 'request': {'method': 'POST', 'url': 'http://localhost:3000/api/v1/slack/deploy-state', 'payload': ''}, 'response': {'status': '200 OK', 'payload': '"Hello"'}}
+[D 200530 15:20:24 logging:8] Running function 'send_message'
+[D 200530 15:20:24 logging:10] Completed function 'send_message'
+[D 200530 15:20:24 logger:60] {'url_rule': <Rule '/api/v1/slack/deploy-state' (OPTIONS, HEAD, GET, POST) -> g_ithub_webhook>, 'execution_time': 0.007530689239501953, 'request_id': '9a3c73eea8034d698ed1260d5af4806c', 'request': {'method': 'POST', 'url': 'http://localhost:3000/api/v1/slack/deploy-state', 'payload': ''}, 'response': {'status': '200 OK', 'payload': ''}}
+[D 200530 15:22:38 logging:8] Running function 'send_message'
+[D 200530 15:22:38 logging:10] Completed function 'send_message'
+[D 200530 15:22:38 logger:60] {'url_rule': <Rule '/api/v1/slack/deploy-state' (OPTIONS, GET, POST, HEAD) -> g_ithub_webhook>, 'execution_time': 0.004993438720703125, 'request_id': '621338615fd44bdc9abced78ad5d8fd4', 'request': {'method': 'POST', 'url': 'http://localhost:3000/api/v1/slack/deploy-state', 'payload': ''}, 'response': {'status': '200 OK', 'payload': ''}}
+[D 200530 15:23:43 logging:8] Running function 'send_message'
+[D 200530 15:23:43 logging:10] Completed function 'send_message'
+[D 200530 15:23:43 logger:60] {'url_rule': <Rule '/api/v1/slack/deploy-state' (HEAD, GET, POST, OPTIONS) -> g_ithub_webhook>, 'execution_time': 0.005728721618652344, 'request_id': '697b018b039f49de9ba067e5d8cebabf', 'request': {'method': 'POST', 'url': 'http://localhost:3000/api/v1/slack/deploy-state', 'payload': ''}, 'response': {'status': '200 OK', 'payload': ''}}
+[D 200530 15:24:22 logging:8] Running function 'send_message'
+[D 200530 15:24:22 logging:10] Completed function 'send_message'
+[D 200530 15:24:22 logger:60] {'url_rule': <Rule '/api/v1/slack/deploy-state' (HEAD, GET, POST, OPTIONS) -> g_ithub_webhook>, 'execution_time': 0.004965543746948242, 'request_id': 'a91db3f602e741b680752c147c477981', 'request': {'method': 'POST', 'url': 'http://localhost:3000/api/v1/slack/deploy-state', 'payload': ''}, 'response': {'status': '200 OK', 'payload': ''}}
+[D 200530 15:28:31 logging:8] Running function 'send_message'
+[D 200530 15:28:31 logging:10] Completed function 'send_message'
+[D 200530 15:28:31 logger:60] {'url_rule': <Rule '/api/v1/slack/deploy-state' (OPTIONS, HEAD, POST, GET) -> g_ithub_webhook>, 'execution_time': 0.005744457244873047, 'request_id': '3058512ae5ca4ccc913d5ce455319459', 'request': {'method': 'POST', 'url': 'http://localhost:3000/api/v1/slack/deploy-state', 'payload': ''}, 'response': {'status': '200 OK', 'payload': ''}}
+[D 200530 15:36:26 logger:60] {'url_rule': <Rule '/api/v1/slack/deploy-state' (GET, OPTIONS, HEAD, POST) -> g_ithub_webhook>, 'execution_time': 0.0003714561462402344, 'request_id': 'a5823df921b944d0be232a82ae03a227', 'request': {'method': 'GET', 'url': 'http://localhost:3000/api/v1/slack/deploy-state?name=timeTravel&branch=Heroku&event=deployment_status&state=success', 'payload': ''}, 'response': {'status': '200 OK', 'payload': '"Hello! POST for any meaningful resource"'}}
+[D 200530 15:37:21 logging:8] Running function 'send_message'
+[D 200530 15:37:21 logging:10] Completed function 'send_message'
+[D 200530 15:37:21 logger:60] {'url_rule': <Rule '/api/v1/slack/deploy-state' (GET, HEAD, POST, OPTIONS) -> g_ithub_webhook>, 'execution_time': 0.003274202346801758, 'request_id': '36638b559d20442685ba6ccf7a747acd', 'request': {'method': 'GET', 'url': 'http://localhost:3000/api/v1/slack/deploy-state?name=timeTravel&branch=Heroku&event=deployment_status&state=success', 'payload': ''}, 'response': {'status': '200 OK', 'payload': ''}}
+[D 200530 15:48:38 logging:8] Running function 'send_message'
+[D 200530 15:48:38 logging:10] Completed function 'send_message'
+[D 200530 15:48:38 logger:60] {'url_rule': <Rule '/api/v1/slack/deploy-state' (GET, HEAD, OPTIONS, POST) -> g_ithub_webhook>, 'execution_time': 0.004435062408447266, 'request_id': '3913ad8d76334424802371d3cdb97417', 'request': {'method': 'POST', 'url': 'http://localhost:3000/api/v1/slack/deploy-state', 'payload': '{"name": "timeTravel", "branch": "Heroku", "event": "deployment_status", "state": "success"}'}, 'response': {'status': '200 OK', 'payload': ''}}
+[D 200530 15:48:58 logging:8] Running function 'send_message'
+[D 200530 15:48:58 logging:10] Completed function 'send_message'
+[D 200530 15:48:58 logger:60] {'url_rule': <Rule '/api/v1/slack/deploy-state' (GET, OPTIONS, HEAD, POST) -> g_ithub_webhook>, 'execution_time': 0.006303548812866211, 'request_id': 'fa37399f93a348078593d4d37ec4364a', 'request': {'method': 'POST', 'url': 'http://localhost:3000/api/v1/slack/deploy-state', 'payload': '{"name": "timeTravel", "branch": "Heroku", "event": "deployment_status", "state": "success"}'}, 'response': {'status': '200 OK', 'payload': ''}}

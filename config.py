@@ -10,5 +10,6 @@ class BaseConfig():
     SLACK_SIGNING_SECRET = os.getenv("SLACK_SIGNING_SECRET", "")
     COMMAND = os.getenv("SLACK_COMMAND", "/test-travel")
     BOT_ICON = os.getenv("BOT_ICON", ':godmode:')
+    CLIENT_ID = os.getenv("CLIENT_ID", '')
 
 Config = BaseConfig()    
