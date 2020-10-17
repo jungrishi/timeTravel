@@ -1,0 +1,16 @@
+name: time-travel
+
+on: [push]
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Python Setup
+      - uses: actions/setup-python@v2
+        with: 
+          python-version: '3.x'
+          architecture: 'x64'
+      - name: Display Python Version
+      - run: python -c "import sys; print(sys.version)"
