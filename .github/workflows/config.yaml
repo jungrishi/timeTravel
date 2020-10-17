@@ -4,7 +4,7 @@ on:
   push:
   pull_request:
     branches: 
-      - staging
+      - master
 
 jobs:
   check-version:
@@ -16,3 +16,22 @@ jobs:
           python-version: '3.x'
           architecture: 'x64'
       - run: python -c "import sys; print(sys.version)"
+  
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.5, 3.6, 3.7, 3.8]
+
+    steps:
+      - uses: action/checkout@v2
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; pip install -r requirements.txt
